@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "redis.login.key",
+      "type": "java.lang.String",
+      "description": "用户信息存储在redis中的key"
+    }
+  ] }

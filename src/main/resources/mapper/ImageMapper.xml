@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buaa.paas.mapper.ImageMapper">
+
+    <select id="listLocalPublicImage" resultType="com.buaa.paas.model.dto.ImageDTO">
+        SELECT * FROM `image`
+        WHERE `type` = 1
+        <if test="name != null" >
+            AND `name` like "%"#{name}"%"
+        </if>
+    </select>
+    <select id="listLocalUserImage" resultType="com.buaa.paas.model.dto.ImageDTO">
+        SELECT
+        `s`.*,
+        `l`.username
+        FROM
+        `image` AS `s`,
+        `login` AS `l`
+        WHERE `type` = 2
+        AND `s`.user_id = `l`.id
+        <if test="name != null" >
+            AND `name` like "%"#{name}"%"
+        </if>
+    </select>
+    <select id="listSelfImage" resultType="com.buaa.paas.model.entity.Image">
+        SELECT * FROM `image`
+        WHERE `user_id` = #{userId}
+    </select>
+</mapper>

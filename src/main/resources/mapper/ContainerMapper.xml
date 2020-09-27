@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buaa.paas.mapper.ContainerMapper">
+    <update id="cleanProjectId">
+        UPDATE container
+        SET project_id = NULL
+        WHERE
+            project_id = #{projectId}
+    </update>
+    <select id="hasBelongSb" resultType="java.lang.Boolean">
+        SELECT
+            count( * )
+        FROM
+            `container` AS `c`
+        WHERE
+            c.id = #{containerId}
+            AND c.id = #{userId}
+    </select>
+    <select id="countByUserId" resultType="java.lang.Integer">
+        SELECT
+            count( * )
+        FROM
+            `container` AS `c`
+        WHERE
+            c.id = #{userId}
+        <if test="status != null" >
+            AND c.status = #{status}
+        </if>
+    </select>
+    <select id="listContainerByUserIdAndNameAndStatus" resultType="com.buaa.paas.model.entity.Container">
+        SELECT * FROM `container`
+        WHERE 1 = 1
+        <if test="userId != null" >
+            AND `container`.id = #{userId}
+        </if>
+        <if test="name != null" >
+            AND `container`.name like "%"#{name}"%"
+        </if>
+        <if test="status != null" >
+            AND `container`.status = #{status}
+        </if>
+    </select>
+</mapper>
